@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AddCitaActivity extends AppCompatActivity {
 
-    private EditText etNotario, etSala, etFecha, etHora, etDescripcion;
+    private EditText etSolicitante, etNotario, etSala, etFecha, etHora, etDescripcion;
     private DatabaseHelper dbHelper;
 
     @Override
@@ -22,6 +22,7 @@ public class AddCitaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_cita);
 
+        etSolicitante = findViewById(R.id.et_solicitante);
         etNotario = findViewById(R.id.et_notario);
         etSala = findViewById(R.id.et_sala);
         etFecha = findViewById(R.id.et_fecha);
@@ -34,18 +35,19 @@ public class AddCitaActivity extends AppCompatActivity {
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String solicitante = etSolicitante.getText().toString();
                 String notario = etNotario.getText().toString();
                 String sala = etSala.getText().toString();
                 String fecha = etFecha.getText().toString();
                 String hora = etHora.getText().toString();
                 String descripcion = etDescripcion.getText().toString();
 
-                if (notario.isEmpty() || sala.isEmpty() || fecha.isEmpty() || hora.isEmpty() || descripcion.isEmpty()) {
+                if (solicitante.isEmpty() || notario.isEmpty() || sala.isEmpty() || fecha.isEmpty() || hora.isEmpty() || descripcion.isEmpty()) {
                     Toast.makeText(AddCitaActivity.this, "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                boolean insert = dbHelper.insertCita(notario, sala, fecha, hora, descripcion);
+                boolean insert = dbHelper.insertCita(solicitante, notario, sala, fecha, hora, descripcion);
                 if (insert) {
                     showNotification("Cita Creada", "Tu cita ha sido registrada correctamente.");
                     Toast.makeText(AddCitaActivity.this, "Cita guardada", Toast.LENGTH_SHORT).show();

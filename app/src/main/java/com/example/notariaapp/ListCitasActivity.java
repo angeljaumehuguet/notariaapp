@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 
 public class ListCitasActivity extends AppCompatActivity {
@@ -35,7 +34,7 @@ public class ListCitasActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedCita = citasList.get(position);
-                String descripcion = selectedCita.split("\n")[4].split(": ")[1]; // Extrae la descripción
+                String descripcion = selectedCita.split("\n")[5].split(": ")[1]; // Extrae la descripción
                 showDeleteDialog(descripcion, position);
             }
         });

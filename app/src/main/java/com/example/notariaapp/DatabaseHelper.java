@@ -6,16 +6,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "notaria.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_CITAS = "citas";
     private static final String COLUMN_ID = "id";
+    private static final String COLUMN_SOLICITANTE = "solicitante";
     private static final String COLUMN_NOTARIO = "notario";
     private static final String COLUMN_SALA = "sala";
     private static final String COLUMN_FECHA = "fecha";
@@ -30,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + TABLE_CITAS + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_SOLICITANTE + " TEXT, " +
                 COLUMN_NOTARIO + " TEXT, " +
                 COLUMN_SALA + " TEXT, " +
                 COLUMN_FECHA + " TEXT, " +
@@ -44,10 +45,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Insertar una cita
-    public boolean insertCita(String notario, String sala, String fecha, String hora, String descripcion) {
+    public boolean insertCita(String solicitante, String notario, String sala, String fecha, String hora, String descripcion) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(COLUMN_SOLICITANTE, solicitante);
         values.put(COLUMN_NOTARIO, notario);
         values.put(COLUMN_SALA, sala);
         values.put(COLUMN_FECHA, fecha);
@@ -58,7 +59,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    // Obtener todas las citas
     public ArrayList<String> getAllCitas() {
         ArrayList<String> citas = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -66,11 +66,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") String cita = "Notario: " + cursor.getString(cursor.getColumnIndex(COLUMN_NOTARIO)) +
-                        "\nSala: " + cursor.getString(cursor.getColumnIndex(COLUMN_SALA)) +
-                        "\nFecha: " + cursor.getString(cursor.getColumnIndex(COLUMN_FECHA)) +
-                        "\nHora: " + cursor.getString(cursor.getColumnIndex(COLUMN_HORA)) +
-                        "\nDescripción: " + cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPCION));
+                @SuppressLint("Range") String cita =
+                        "Solicitante: " + cursor.getString(cursor.getColumnIndex(COLUMN_SOLICITANTE)) + "\n" +
+                                "Notario: " + cursor.getString(cursor.getColumnIndex(COLUMN_NOTARIO)) + "\n" +
+                                "Sala: " + cursor.getString(cursor.getColumnIndex(COLUMN_SALA)) + "\n" +
+                                "Fecha: " + cursor.getString(cursor.getColumnIndex(COLUMN_FECHA)) + "\n" +
+                                "Hora: " + cursor.getString(cursor.getColumnIndex(COLUMN_HORA)) + "\n" +
+                                "Descripción: " + cursor.getString(cursor.getColumnIndex(COLUMN_DESCRIPCION));
                 citas.add(cita);
             } while (cursor.moveToNext());
         }
@@ -79,7 +81,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return citas;
     }
 
-    // Eliminar una cita
     public void deleteCita(String descripcion) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_CITAS + " WHERE " + COLUMN_DESCRIPCION + " = ?", new String[]{descripcion});

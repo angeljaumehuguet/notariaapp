@@ -5,6 +5,12 @@
     android:padding="16dp">
 
     <EditText
+        android:id="@+id/et_solicitante"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del solicitante" />
+
+    <EditText
         android:id="@+id/et_notario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

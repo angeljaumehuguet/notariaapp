@@ -2,17 +2,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="16dp">
 
     <Button
         android:id="@+id/btn_add_cita"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Añadir Cita" />
+        android:text="Añadir Cita"
+        android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btn_list_citas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ver Citas" />
+        android:text="Ver Citas"/>
 </LinearLayout>
